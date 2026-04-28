@@ -1,14 +1,14 @@
 {
-  "name": "Cinny",
-  "short_name": "Cinny",
-  "description": "Yet another matrix client",
+  "name": "KnowMe",
+  "short_name": "KnowMe",
+  "description": "AI that understands you. Secure messaging via Matrix.",
   "dir": "auto",
   "lang": "en-US",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "./",
-  "background_color": "#fff",
-  "theme_color": "#fff",
+  "background_color": "#0B0F14",
+  "theme_color": "#0B0F14",
   "icons": [
     {
       "src": "./public/android/android-chrome-36x36.png",
