@@ -30,6 +30,8 @@ import { Devices } from './devices';
 import { EmojisStickers } from './emojis-stickers';
 import { DeveloperTools } from './developer-tools';
 import { About } from './about';
+import { Admin } from './admin/Admin';
+import { useIsAdmin } from '../../hooks/useIsAdmin';
 import { UseStateProvider } from '../../components/UseStateProvider';
 import { stopPropagation } from '../../utils/keyboard';
 import { LogoutDialog } from '../../components/LogoutDialog';
@@ -41,6 +43,7 @@ export enum SettingsPages {
   DevicesPage,
   EmojisStickersPage,
   DeveloperToolsPage,
+  AdminPage,
   AboutPage,
 }
 
@@ -50,9 +53,9 @@ type SettingsMenuItem = {
   icon: IconSrc;
 };
 
-const useSettingsMenuItems = (): SettingsMenuItem[] =>
-  useMemo(
-    () => [
+const useSettingsMenuItems = (isAdmin: boolean): SettingsMenuItem[] =>
+  useMemo(() => {
+    const items: SettingsMenuItem[] = [
       {
         page: SettingsPages.GeneralPage,
         name: 'General',
@@ -83,14 +86,21 @@ const useSettingsMenuItems = (): SettingsMenuItem[] =>
         name: 'Developer Tools',
         icon: Icons.Terminal,
       },
-      {
-        page: SettingsPages.AboutPage,
-        name: 'About',
-        icon: Icons.Info,
-      },
-    ],
-    []
-  );
+    ];
+    if (isAdmin) {
+      items.push({
+        page: SettingsPages.AdminPage,
+        name: 'Admin',
+        icon: Icons.ShieldUser,
+      });
+    }
+    items.push({
+      page: SettingsPages.AboutPage,
+      name: 'About',
+      icon: Icons.Info,
+    });
+    return items;
+  }, [isAdmin]);
 
 type SettingsProps = {
   initialPage?: SettingsPages;
@@ -106,12 +116,15 @@ export function Settings({ initialPage, requestClose }: SettingsProps) {
     ? mxcUrlToHttp(mx, profile.avatarUrl, useAuthentication, 96, 96, 'crop') ?? undefined
     : undefined;
 
+  const adminStatus = useIsAdmin();
+  const isAdmin = adminStatus === 'admin';
+
   const screenSize = useScreenSizeContext();
   const [activePage, setActivePage] = useState<SettingsPages | undefined>(() => {
     if (initialPage) return initialPage;
     return screenSize === ScreenSize.Mobile ? undefined : SettingsPages.GeneralPage;
   });
-  const menuItems = useSettingsMenuItems();
+  const menuItems = useSettingsMenuItems(isAdmin);
 
   const handlePageRequestClose = () => {
     if (screenSize === ScreenSize.Mobile) {
@@ -227,6 +240,9 @@ export function Settings({ initialPage, requestClose }: SettingsProps) {
       )}
       {activePage === SettingsPages.DeveloperToolsPage && (
         <DeveloperTools requestClose={handlePageRequestClose} />
+      )}
+      {activePage === SettingsPages.AdminPage && isAdmin && (
+        <Admin requestClose={handlePageRequestClose} />
       )}
       {activePage === SettingsPages.AboutPage && <About requestClose={handlePageRequestClose} />}
     </PageRoot>
