@@ -183,7 +183,7 @@ type AdminProps = {
 
 export function Admin({ requestClose }: AdminProps) {
   const mx = useMatrixClient();
-  const baseUrl = mx.baseUrl();
+  const baseUrl = mx.baseUrl;
   const accessToken = mx.getAccessToken()!;
 
   const [email, setEmail] = useState('');

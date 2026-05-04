@@ -9,7 +9,7 @@ export function useIsAdmin(): AdminStatus {
 
   const checkAdmin = useCallback(async () => {
     try {
-      const baseUrl = mx.baseUrl();
+      const baseUrl = mx.baseUrl;
       const accessToken = mx.getAccessToken();
       const resp = await fetch(`${baseUrl}/_conduit/admin/is_admin`, {
         headers: {
