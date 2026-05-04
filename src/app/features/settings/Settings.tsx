@@ -98,7 +98,7 @@ const useSettingsMenuItems = (): SettingsMenuItem[] =>
       icon: Icons.Info,
     });
     return items;
-  }, [isAdmin]);
+  }, []);
 
 type SettingsProps = {
   initialPage?: SettingsPages;
@@ -236,7 +236,7 @@ export function Settings({ initialPage, requestClose }: SettingsProps) {
       {activePage === SettingsPages.DeveloperToolsPage && (
         <DeveloperTools requestClose={handlePageRequestClose} />
       )}
-      {activePage === SettingsPages.AdminPage && isAdmin && (
+      {activePage === SettingsPages.AdminPage && (
         <Admin requestClose={handlePageRequestClose} />
       )}
       {activePage === SettingsPages.AboutPage && <About requestClose={handlePageRequestClose} />}
