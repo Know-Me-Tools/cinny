@@ -46,7 +46,7 @@ export function About({ requestClose }: AboutProps) {
                   <Box direction="Column" gap="100">
                     <Box gap="100" alignItems="End">
                       <Text size="H3">KnowMe</Text>
-                      <Text size="T200">v4.11.1</Text>
+                      <Text size="T200">v4.12.2</Text>
                     </Box>
                     <Text>AI that understands you.</Text>
                   </Box>
